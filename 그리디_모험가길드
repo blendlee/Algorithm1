@@ -1,0 +1,13 @@
+#모험가길드
+
+n = int(input())
+graph = list(map(int,input().split()))
+graph.sort()
+count = 0
+result = 0
+for i in range(n) :
+    if i+1-count == graph[i] :
+        result+=1
+        count = i+1
+print(result)
+
