@@ -1,0 +1,9 @@
+s = str(input())
+numbers=list(s)
+first=int(numbers[0])
+for i in range(1,len(s)) :
+    a= first + int(numbers[i])
+    b= first * int(numbers[i])
+    first = max(a,b)
+
+print(first)
