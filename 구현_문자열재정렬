@@ -1,0 +1,13 @@
+
+s = list(str(input()))
+
+s.sort()
+number = 0
+
+for i in s :
+    if i.isalpha() :
+        print(i,end='')
+    else :
+        number += int(i)
+
+print(number,end='')
