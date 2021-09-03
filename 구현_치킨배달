@@ -1,0 +1,34 @@
+
+from itertools import combinations
+
+
+graph=[]
+n , m =map(int,input().split())
+for _ in range(n) :
+    graph.append(list(map(int,input().split())))
+
+chicken=[]
+house=[]
+for i in range(n) :
+    for j in range(n):
+        if graph[i][j] == 2 :
+            chicken.append((i,j))
+        elif graph[i][j] == 1 :
+            house.append((i,j))
+
+
+def get_chicken(stores) :
+    distance=0
+    for a, b in house :
+        dist=100001
+        for p,q in stores:
+            dist = min(dist,abs(a-p)+abs(b- q))
+        distance += dist    
+    return distance
+
+chickens = list(combinations(chicken,m))
+result=10001
+for stores in chickens :
+    result = min(result,get_chicken(stores))
+
+print(result)
