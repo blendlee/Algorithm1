@@ -1,0 +1,73 @@
+
+cylinder=[]
+step=[]
+
+def build_cylinder(x,y):
+    if  y ==0 :
+        cylinder.append((x,y))
+    elif (x,y-1) in cylinder :
+        cylinder.append((x,y))
+    elif (x,y) in step or (x-1,y) in step :
+        cylinder.append((x,y))
+
+
+def build_step(x,y):
+    if (x,y-1) in cylinder or (x+1,y-1) in cylinder :
+        step.append((x,y))
+    elif (x-1,y) in step and (x+1,y) in step:
+        step.append((x,y))
+
+
+def delete_cylinder(x,y):
+    cylinder.remove((x,y))
+    if check() == False :
+        cylinder.append((x,y))
+
+def delete_step(x,y):
+    step.remove((x,y))
+    if check() == False :
+        step.append((x,y))
+
+def check():
+    for nx,ny in cylinder:
+        if  ny == 0 :
+            continue
+        elif (nx,ny-1) in cylinder or (nx,ny) in step or (nx-1,ny) in step:
+            continue
+        else :
+            return False
+    for nx,ny in step:
+        if (nx,ny-1) in cylinder or (nx+1,ny-1) in cylinder:
+            continue
+        elif (nx-1,ny) in step and (nx+1,ny) in step:
+            continue
+        else :
+            return False
+    return True
+
+def solution(n, build_frame):
+    result=[]
+    for x,y,a,b in build_frame:
+        if b == 1:
+            if a == 0:
+                if x < 0 or x > n or y < 0 or y >= n :
+                    continue
+                build_cylinder(x,y)
+            else :
+                if x < 0 or x >= n or y < 0 or y > n :
+                    continue
+                build_step(x,y)
+        else :
+            if a== 0 :
+                delete_cylinder(x,y)
+            else:
+                delete_step(x,y)
+    for x, y in cylinder:
+        result.append((x,y,0))
+    for x,y in step:
+        result.append((x,y,1))
+    result.sort()
+    return result
+
+
+print(solution(n,build_frame1))
