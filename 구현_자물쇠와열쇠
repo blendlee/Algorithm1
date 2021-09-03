@@ -1,0 +1,45 @@
+def turn(key,keys) :
+    a=[]
+    for x , y in keys:
+        nx=y
+        ny=len(key)-x-1
+        a.append((nx,ny))
+    return a
+
+def check(locks,keys,lock_coord):
+    for x,y in locks:
+        if (x,y) not in keys:
+            return False
+    for x,y in keys:
+        if (x,y) not in locks and (x,y) in lock_coord:
+            return False
+    return True
+
+result=False
+
+def solution(key,lock):
+    locks=[]
+    keys=[]
+    lock_coord=[]
+    for i in range(len(lock)):
+        for j in range(len(lock)):
+            if lock[i][j] == 0 :
+                locks.append((i+len(key)-1,j+len(key)-1))
+            else:
+                lock_coord.append((i+len(key)-1,j+len(key)-1))
+
+    for i in range(len(key)):
+        for j in range(len(key)):
+            if key[i][j] == 1 :
+                keys.append((i,j))
+    
+    for i in range(len(lock)+len(key)-1):
+        for j in range(len(lock)+len(key)-1):
+            for _ in range(4):
+                answer=[]
+                keys = turn(key,keys)
+                for x,y in keys:
+                    answer.append((x+i,y+j))
+                if check(locks,answer,lock_coord) == True:
+                    return True         
+    return False
