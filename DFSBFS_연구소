@@ -1,0 +1,68 @@
+import copy
+
+
+n,m = map(int,input().split())
+
+
+array=[]
+graph=[[0]*m for _ in range(n)]
+
+
+
+for i in range(n):
+    array.append(list(map(int,input().split())))
+
+dx=[1,0,-1,0]
+dy=[0,1,0,-1]
+
+def spread(graph,x,y):
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
+        if 0 <= nx < n and 0 <= ny <m and graph[nx][ny] == 0 :
+            graph[nx][ny]=2
+            spread(graph,nx,ny)
+
+
+def count_safety(graph):
+    safety = 0
+    for i in range(n):
+        for j in range(m):
+            if graph[i][j] == 0 :
+                safety+=1
+    return safety
+def virus(graph):
+    viruses=[]
+    for i in range(n):
+        for j in range(m):
+            if graph[i][j] == 2 :
+                viruses.append((i,j))
+    return viruses
+
+
+count=0
+maximum =0 
+
+
+
+def wall():
+    global count
+    if count == 3 :
+        graph=copy.deepcopy(array)
+        for x,y in virus(graph):
+            spread(graph,x,y)
+        global maximum
+        maximum= max(maximum,count_safety(graph))
+        return
+    for i in range(n):
+        for j in range(m):
+            if array[i][j] == 0 :  
+                count+=1
+                array[i][j] = 1
+                wall()
+                array[i][j]=0
+                count-=1
+
+wall()
+
+print(maximum)
