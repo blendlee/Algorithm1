@@ -1,0 +1,31 @@
+def fixed(answer):
+    global fix
+    for k in answer:
+        if k in weak:
+            weak.remove(k)
+        if k+n in weak:
+            weak.remove(k+n)
+        if k-n in weak:
+            weak.remove(k-n)       
+    fix+=1
+
+def soluttion(n,weak,dist):
+    dist.sort(reverse=True)
+    for i in range(0,len(weak)):
+        weak.append(weak[i]+n)
+    count=0
+    maximum=0
+    answer=0
+    for j in dist:
+        for i in range(0,len(weak)/2):
+            for k in range(weak[i],weak[i]+j):
+                if k or k+n in weak:
+                    count+=1
+                maximum= max(maximum,count)
+                if maximum == count :
+                    answer = range(weak[i],weak[i]+j)
+        fixed(answer)
+        if len(weak)== 0 :
+            return fix
+    if len(weak) != 0 :
+        return -1
