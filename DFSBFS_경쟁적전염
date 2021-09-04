@@ -1,0 +1,41 @@
+from collections import deque
+
+
+
+n,k = map(int,input().split())
+graph=[]
+for i in range(n):
+    graph.append(list(map(int,input().split())))
+
+s,a,b = map(int,input().split())
+
+
+visited=[[False]*n for _ in range(n)]
+
+dx=[1,0,-1,0]
+dy=[0,1,0,-1]
+time=0
+
+viruses=deque()
+for i in range(n):
+    for j in range(n):
+        if graph[i][j] != 0 :
+            viruses.append((time,graph[i][j],i,j))
+
+
+while viruses :
+    time, virus, x,y = viruses.popleft()
+    if time == s+1 :
+        break
+    if graph[x][y] != 0  and virus < graph[x][y] :
+        graph[x][y] = virus
+    elif graph[x][y] == 0 :
+        graph[x][y] = virus
+    for i in range(4):
+        nx = x+dx[i]
+        ny = y + dy[i]
+        if 0<= nx < n and 0 <= ny < n and graph[nx][ny] ==0 :
+            viruses.append((time+1,virus, nx,ny))
+
+
+print(graph[a-1][b-1])
