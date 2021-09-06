@@ -1,0 +1,19 @@
+n = int(input())
+graph = list(map(int,input().split()))
+
+def search(array,start,end) :
+    if start > end :
+        return None
+    mid = (start+end)//2
+    if array[mid] == mid :
+        return mid
+    elif array[mid] > mid :
+        return search(array,start,mid-1)
+    else:
+        return search(array,mid+1,end)
+    
+answer = search(graph,0,len(graph)-1)
+if answer == None :
+    answer =-1
+
+print(answer)
