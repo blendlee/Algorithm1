@@ -1,0 +1,37 @@
+def search_first(word,words, start,end):
+    mid=(start+end)//2
+    if start >= end :
+        return start
+    if words[mid] > word :
+        return search_first(word,words, start,mid-1)
+    elif words[mid] < word :
+        return search_first(word,words, mid+1,end)
+
+def soultion(words,queries):
+    words_re=list(reversed(words))
+    for i in range(0,len(words_re)):
+        words_re[i]= words_re[i][::-1]
+    words_re.sort()
+    words.sort()
+    result=[]
+    for word in queries :
+        count=0
+        length= len(word)
+        if word[0] != "?":
+            start = search_first(word,words,0,len(words)-1)
+            word=word.replace("?",'z')
+            end = search_first(word,words,start,len(words)-1)
+            for i in range(start,end):
+                if len(words[i]) == length :
+                    count+=1
+            result.append(count)
+        else :
+            word=word[::-1]
+            start = search_first(word,words_re,0,len(words)-1)
+            word=word.replace("?",'z')
+            end = search_first(word,words_re,start,len(words)-1)
+            for i in range(start,end):
+                if len(words_re[i]) == length :
+                    count+=1
+            result.append(count)       
+    return result
