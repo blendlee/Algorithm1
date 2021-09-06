@@ -1,0 +1,24 @@
+n , c = map(int,input().split())
+house=[]
+for i in range(n):
+    house.append(int(input()))
+
+house.sort()
+graph=[0]*(max(house)+1)
+count=0
+
+def bin_search(house,start,end):
+    mid=(start+end)//2
+    if start > end :
+        return house[mid]
+    if abs(house[start]-house[mid]) < abs(house[mid]-house[end]) :
+        new_mid = bin_search(house,mid,end)
+        if  abs(house[start]-house[mid]) :
+            pass
+        return mid
+    elif abs(house[start]-house[mid]) > abs(house[mid]-house[end]) :
+        return bin_search(house,start,mid)
+    elif abs(house[start]-house[mid]) == abs(house[mid]-house[end]) :
+        return house[mid]
+
+print(bin_search(house,0,len(house)-1))
